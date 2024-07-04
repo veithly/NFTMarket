@@ -13,7 +13,15 @@ This is a simple NFT Marketplace built with Next.js, Tailwind CSS, and ethers.
 
 ## Getting Started
 
-First, run the development server:
+Setup your environment variables in `.env`:
+
+```bash
+NEXT_PUBLIC_ALCHEMY_API_KEY=
+NEXT_PUBLIC_NFTMarket_CONTRACT_ADDRESS=
+NEXT_PUBLIC_NETWORK=sepolia
+```
+
+Run the development server:
 
 ```bash
 npm run dev
