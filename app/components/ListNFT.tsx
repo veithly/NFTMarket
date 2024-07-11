@@ -7,6 +7,8 @@ import MyNFTABI from '@/abis/MyNFTABI';
 import { Input, Button, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from '@nextui-org/react';
 import { useEthersSigner } from '@/utils/useEthersSigner';
 import { useNotification, NotificationType } from './Notification';
+import NFTStore from '@/store/nftStore';
+import nftStore from '@/store/nftStore';
 
 interface ListNFTProps {
   className?: string;
@@ -47,7 +49,6 @@ const ListNFT: React.FC<ListNFTProps> = ({ className }) => {
       const nftContractInstance = new ethers.Contract(nftContract, MyNFTABI, signer);
       const marketAddress = process.env.NEXT_PUBLIC_NFTMarket_CONTRACT_ADDRESS || '';
 
-      // Check if the NFT is already approved
       const approvedAddress = await nftContractInstance.getApproved(tokenId);
       console.log("Approved address:", approvedAddress);
 
@@ -62,7 +63,7 @@ const ListNFT: React.FC<ListNFTProps> = ({ className }) => {
       setStep('list');
     } catch (error: any) {
       console.error("Error in approval process:", error);
-      addNotification(NotificationType.ERROR, `Error in approval process:${error.revert.args[0]}`);
+      addNotification(NotificationType.ERROR, `Error in approval process: ${error.message}`);
     } finally {
       setIsLoading(false);
     }
@@ -74,14 +75,15 @@ const ListNFT: React.FC<ListNFTProps> = ({ className }) => {
     try {
       const contract = new ethers.Contract(process.env.NEXT_PUBLIC_NFTMarket_CONTRACT_ADDRESS || '', NFTMarketABI, signer);
       const weiPrice = parseUnits(price, 'ether');
-      console.log(contract);
       const tx = await contract.listNFT(nftContract, tokenId, weiPrice);
       await tx.wait();
       console.log('NFT listed successfully');
+      addNotification(NotificationType.SUCCESS, 'NFT listed successfully');
+      nftStore.refetchNFTs();
       closeModal();
     } catch (error: any) {
       console.error('Error listing NFT:', error);
-      error.info.error.message && addNotification(NotificationType.ERROR, `Error listing NFT:${error.info.error.message}`);
+      addNotification(NotificationType.ERROR, `Error listing NFT: ${error.message}`);
     } finally {
       setIsLoading(false);
     }
@@ -113,8 +115,8 @@ const ListNFT: React.FC<ListNFTProps> = ({ className }) => {
               onChange={handleTokenIdChange}
             />
             <Input
-              label="Price in ETH"
-              placeholder="Enter price in ETH"
+              label="Price in MTK"
+              placeholder="Enter price in MTK"
               value={price}
               onChange={handlePriceChange}
             />

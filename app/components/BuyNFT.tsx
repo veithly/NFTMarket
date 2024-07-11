@@ -9,7 +9,7 @@ import type { NFT } from '@/types/NFT';
 import { useNotification, NotificationType } from './Notification';
 
 interface BuyNFTProps {
-  listingId: string;
+  listingId: number;
   nft: NFT;
   onPurchaseComplete: () => void;
 }
@@ -65,6 +65,8 @@ const BuyNFT: React.FC<BuyNFTProps> = ({ listingId, nft, onPurchaseComplete }) =
 
   return (
     <Button
+      size='sm'
+      color='primary'
       onClick={buyNFT}
       disabled={isLoading}
     >

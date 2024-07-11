@@ -1,15 +1,19 @@
 # NFT Market
 
-This is a simple NFT Marketplace built with Next.js, Tailwind CSS, and ethers.
+This is a simple NFT Marketplace built with Next.js, Tailwind CSS, Mobx, Next/Server, Wagmi, and ethers.
 
 ## Screenshots
 
 - main page
 ![main page](./assets/MainPage.png)
+- detail page
+![detail page](./assets/NFTDetail.png)
 - buy nft
 ![buy nft](./assets/BuyNFT.png)
 - list nft
 ![list nft](./assets/ListNFT.png)
+- delist nft
+![delist nft](./assets/DelistNFT.png)
 
 ## Getting Started
 
